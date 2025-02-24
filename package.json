@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "aos": "^2.3.4",
+    "swiper": "^11.2.4"
+  },
+  "devDependencies": {
+    "@types/aos": "^3.0.7"
+  }
+}
