@@ -26,15 +26,15 @@ const Countdown = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return <div className="text-2xl font-bold">{timeLeft}</div>;
+  return <div className="text-2xl font-bold fade-in">{timeLeft}</div>;
 };
 
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex items-center justify-center text-white">
-      <div className="text-center">
-        <h1 className="text-4xl mb-4">Welcome to Your Birthday Celebration!</h1>
-        <h2 className="text-2xl mb-4">Countdown to your special day:</h2>
+      <div className="text-center bounce-in">
+        <h1 className="text-4xl mb-4 fade-in">Welcome to Your Birthday Celebration!</h1>
+        <h2 className="text-2xl mb-4 fade-in">Countdown to your special day:</h2>
         <Countdown />
       </div>
     </div>

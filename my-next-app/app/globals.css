@@ -13,8 +13,42 @@
 }
 
 .animate-spin-slow {
-  animation: spin-slow 5s linear infinite; /* Adjust the time to your desired speed */
+  animation: spin-slow 3s linear infinite; /* Adjust the time to your desired speed */
 }
 body {
   font-family: 'Poppins', sans-serif;
+}
+
+.bg-gradient-to-r {
+  background: linear-gradient(135deg, rgba(100, 80, 150, 0.7), rgba(255, 85, 155, 0.7), rgba(220, 70, 55, 0.7));
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bounce-in {
+  animation: bounceIn 1s ease-in-out;
 }

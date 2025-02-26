@@ -53,22 +53,28 @@ const QuizPage = () => {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [image, setImage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false); // To show the spinner
+  const [answeredQuestions, setAnsweredQuestions] = useState<boolean[]>(new Array(questions.length).fill(false)); // Track answered questions
 
   const handleAnswerChange = (value: string) => {
     const newAnswers = [...answers];
     newAnswers[currentQuestionIndex] = value;
     setAnswers(newAnswers);
+    setAnsweredQuestions((prev) => {
+      const updated = [...prev];
+      updated[currentQuestionIndex] = true;
+      return updated;
+    });
+    console.log("Selected answer: ", value);
   };
 
   const handleNextQuestion = () => {
     const isCorrect = answers[currentQuestionIndex] === questions[currentQuestionIndex].answer;
-    
+
     // Log selected answer and check if it's correct
     console.log('Selected Answer:', answers[currentQuestionIndex]);
     console.log('Correct Answer:', questions[currentQuestionIndex].answer);
 
     if (isCorrect) {
-      setScore(prev => (prev || 0) + 10); // Correct score increment
       setFeedback("Correct! 🎉");
       setImage('/success-image.jpg'); // Correct image path
     } else {
@@ -93,10 +99,17 @@ const QuizPage = () => {
 
   const checkAnswers = () => {
     setIsProcessing(true); // Show spinner while processing results
+    let totalScore = 0;
+    answers.forEach((answer, index) => {
+      if (answer === questions[index].answer) {
+        totalScore += 10; // Calculate score
+      }
+    });
     setTimeout(() => {
       setIsProcessing(false); // Hide spinner after processing
+      setScore(totalScore); // Set the final score
       setFeedback(`You finished the quiz!`);
-      alert(`Your score: ${score} / 80`); // Show final score
+      alert(`Your final score: ${totalScore} / 80`); // Show final score
     }, 2000); // Adjust processing time here
   };
 
@@ -107,6 +120,7 @@ const QuizPage = () => {
     setImage(null);
     setIsProcessing(false); // Reset spinner state
     setCurrentQuestionIndex(0);
+    setAnsweredQuestions(new Array(questions.length).fill(false)); // Reset answered questions
   };
 
   return (
@@ -123,6 +137,7 @@ const QuizPage = () => {
                     key={idx}
                     onClick={() => handleAnswerChange(option)}
                     className="w-full p-3 bg-blue-500 text-white rounded-lg"
+                    disabled={answeredQuestions[currentQuestionIndex]}
                   >
                     {option}
                   </button>
@@ -134,7 +149,7 @@ const QuizPage = () => {
             <button
               onClick={handleNextQuestion}
               className="mt-4 p-3 bg-pink-500 text-white rounded-lg w-full text-xl"
-              disabled={isProcessing}
+              disabled={isProcessing || !answeredQuestions[currentQuestionIndex]}
             >
               {currentQuestionIndex < questions.length - 1 ? 'Next Question' : 'Finish Quiz'}
             </button>
