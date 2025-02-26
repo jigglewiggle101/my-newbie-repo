@@ -62,43 +62,42 @@ const QuizPage = () => {
 
   const handleNextQuestion = () => {
     const isCorrect = answers[currentQuestionIndex] === questions[currentQuestionIndex].answer;
-  
+    
+    // Log selected answer and check if it's correct
     console.log('Selected Answer:', answers[currentQuestionIndex]);
     console.log('Correct Answer:', questions[currentQuestionIndex].answer);
-  
+
     if (isCorrect) {
       setScore(prev => (prev || 0) + 10); // Correct score increment
       setFeedback("Correct! 🎉");
-      setImage('/success-image.jpg'); // Corrected image path
+      setImage('/success-image.jpg'); // Correct image path
     } else {
       setFeedback("Oops! That's incorrect.");
-      setImage('/fail-image.jpg'); // Corrected image path
+      setImage('/fail-image.jpg'); // Fail image path
     }
-  
-    // Disable the button while processing
-    setIsProcessing(true);
-  
-    // Move to the next question or finish the quiz
+
+    setIsProcessing(true); // Show spinner while moving to next question
+
+    // After a delay, move to the next question or finish the quiz
     if (currentQuestionIndex < questions.length - 1) {
       setTimeout(() => {
         setCurrentQuestionIndex(prev => prev + 1); // Increment question index
-        setFeedback(null);
-        setImage(null);
-        setIsProcessing(false); // Enable the button again
-      }, 1000); // Wait for 1 second before moving to the next question
+        setFeedback(null); // Reset feedback for the next question
+        setImage(null); // Reset image
+        setIsProcessing(false); // Stop the spinner
+      }, 1000); // Wait 1 second before showing the next question
     } else {
-      setTimeout(() => checkAnswers(), 1000); // Check answers when quiz is finished
+      setTimeout(() => checkAnswers(), 1000); // After last question, check answers
     }
   };
-  
 
   const checkAnswers = () => {
-    setIsProcessing(true); // Show spinner when processing
+    setIsProcessing(true); // Show spinner while processing results
     setTimeout(() => {
-      setIsProcessing(false); // Stop the spinner after 2 seconds (or your desired time)
+      setIsProcessing(false); // Hide spinner after processing
       setFeedback(`You finished the quiz!`);
-      alert(`Your score: ${score} / 80`);
-    }, 2000); // Adjust the processing time here
+      alert(`Your score: ${score} / 80`); // Show final score
+    }, 2000); // Adjust processing time here
   };
 
   const restartQuiz = () => {
